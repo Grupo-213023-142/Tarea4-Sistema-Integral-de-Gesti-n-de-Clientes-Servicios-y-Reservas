@@ -1,16 +1,27 @@
-# Definimos errores personalizados para el sistema
+# Módulo que contiene las excepciones personalizadas del sistema.
 
-# Error de validación de datos (ejemplo: email o teléfono inválido)
+# Excepción para errores de validación
 class ErrorValidacion(Exception):
+
+    # Constructor de la excepción
     def __init__(self, mensaje):
+
         super().__init__(mensaje)
 
-# Error relacionado con reservas (ejemplo: servicio no disponible)
+
+# Excepción para errores relacionados con reservas
 class ErrorReserva(Exception):
+
+    # Constructor de la excepción
     def __init__(self, mensaje):
+
         super().__init__(mensaje)
 
-# Error general del sistema
+
+# Excepción general del sistema
 class ErrorSistema(Exception):
+
+    # Constructor de la excepción
     def __init__(self, mensaje):
+
         super().__init__(mensaje)
