@@ -1,42 +1,149 @@
-# Importamos modelos y excepciones
-from modelos.cliente import Cliente
-from modelos.servicio import ReservaSala, AlquilerEquipo, AsesoriaEspecializada
-from modelos.reserva import Reserva
-from excepciones.errores_personalizados import ErrorSistema
+##################################################################
+# Módulo encargado de gestionar las operaciones
+# principales del sistema.
+#
+# Aquí se administran:
+# - Clientes
+# - Reservas
+# - Cancelaciones
+##################################################################
 
-# Clase GestorSistema para manejar operaciones del sistema
+# Importamos la clase Cliente
+from modelos.cliente import Cliente
+
+# Importamos la clase Reserva
+from modelos.reserva import Reserva
+
+# Importamos excepción personalizada
+from excepciones.errores_personalizados import (
+    ErrorSistema
+)
+
+
+# Clase encargada de controlar el sistema
 class GestorSistema:
+
+    # Constructor de la clase
     def __init__(self):
-        # Listas internas para guardar clientes y reservas
+
+        # Lista para almacenar clientes
         self.clientes = []
+
+        # Lista para almacenar reservas
         self.reservas = []
 
-    def registrar_cliente(self, id, nombre, email, telefono):
+    # Método encargado de registrar clientes
+    def registrar_cliente(
+        self,
+        id,
+        nombre,
+        email,
+        telefono
+    ):
+
         try:
-            # Creamos un cliente y validamos sus datos
-            cliente = Cliente(id, nombre, email, telefono)
+
+            # Creamos objeto cliente
+            cliente = Cliente(
+                id,
+                nombre,
+                email,
+                telefono
+            )
+
+            # Validamos datos del cliente
             cliente.validar()
+
+        # Capturamos errores del proceso
+        except Exception as e:
+
+            # Encadenamos excepción personalizada
+            raise ErrorSistema(
+                f"Error registrando cliente: {e}"
+            ) from e
+
+        # Se ejecuta si no ocurre excepción
+        else:
+
+            # Guardamos cliente en la lista
             self.clientes.append(cliente)
+
             return cliente
-        except Exception as e:
-            # Si algo falla, lanzamos un error del sistema
-            raise ErrorSistema(f"Error al registrar cliente: {e}")
 
-    def crear_reserva(self, cliente, servicio, duracion):
+        # Se ejecuta siempre
+        finally:
+
+            print(
+                "Proceso de registro finalizado"
+            )
+
+    # Método encargado de crear reservas
+    def crear_reserva(
+        self,
+        cliente,
+        servicio,
+        duracion
+    ):
+
         try:
-            # Creamos una reserva y la confirmamos
-            reserva = Reserva(cliente, servicio, duracion)
+
+            # Creamos objeto reserva
+            reserva = Reserva(
+                cliente,
+                servicio,
+                duracion
+            )
+
+            # Confirmamos la reserva
             reserva.confirmar()
-            self.reservas.append(reserva)
-            return reserva
-        except Exception as e:
-            # Si algo falla, lanzamos un error del sistema
-            raise ErrorSistema(f"Error al crear reserva: {e}")
 
+        # Capturamos errores
+        except Exception as e:
+
+            # Encadenamos excepción personalizada
+            raise ErrorSistema(
+                f"Error creando reserva: {e}"
+            ) from e
+
+        # Se ejecuta si no ocurre excepción
+        else:
+
+            # Guardamos reserva
+            self.reservas.append(reserva)
+
+            return reserva
+
+        # Se ejecuta siempre
+        finally:
+
+            print(
+                "Proceso de reserva finalizado"
+            )
+
+    # Método encargado de cancelar reservas
     def cancelar_reserva(self, reserva):
+
         try:
+
             # Cancelamos la reserva
             reserva.cancelar()
-            return reserva
+
+        # Capturamos errores
         except Exception as e:
-            raise ErrorSistema(f"Error al cancelar reserva: {e}")
+
+            # Encadenamos excepción personalizada
+            raise ErrorSistema(
+                f"Error cancelando reserva: {e}"
+            ) from e
+
+        # Se ejecuta si no ocurre excepción
+        else:
+
+            return reserva
+
+        # Se ejecuta siempre
+        finally:
+
+            print(
+                "Proceso cancelación finalizado"
+            )
