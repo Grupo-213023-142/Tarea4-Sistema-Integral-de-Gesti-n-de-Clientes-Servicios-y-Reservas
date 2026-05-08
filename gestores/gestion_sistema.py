@@ -1,149 +1,229 @@
-##################################################################
-# Módulo encargado de gestionar las operaciones
-# principales del sistema.
-#
-# Aquí se administran:
-# - Clientes
-# - Reservas
-# - Cancelaciones
-##################################################################
+"""
+Módulo encargado de gestionar las operaciones principales del sistema Software FJ.
 
-# Importamos la clase Cliente
+Esta clase administra clientes, reservas y cancelaciones mediante listas internas,
+sin utilizar bases de datos. También centraliza validaciones y manejo de errores
+para mantener la estabilidad del sistema.
+"""
+
+import logging
+
 from modelos.cliente import Cliente
-
-# Importamos la clase Reserva
 from modelos.reserva import Reserva
-
-# Importamos excepción personalizada
-from excepciones.errores_personalizados import (
-    ErrorSistema
-)
+from excepciones.errores_personalizados import ErrorSistema
 
 
-# Clase encargada de controlar el sistema
 class GestorSistema:
+    """
+    Clase encargada de coordinar las operaciones principales del sistema.
 
-    # Constructor de la clase
+    Administra:
+        - Registro de clientes.
+        - Creación de reservas.
+        - Cancelación de reservas.
+        - Consulta de clientes y reservas almacenadas.
+    """
+
     def __init__(self):
-
-        # Lista para almacenar clientes
         self.clientes = []
-
-        # Lista para almacenar reservas
         self.reservas = []
 
-    # Método encargado de registrar clientes
-    def registrar_cliente(
-        self,
-        id,
-        nombre,
-        email,
-        telefono
-    ):
+    def _obtener_id_cliente(self, cliente):
+        """
+        Obtiene el identificador de un cliente de forma segura.
+
+        Se usa getattr para conservar compatibilidad con distintas versiones
+        de la clase Cliente durante la integración de ramas.
+        """
+
+        return getattr(cliente, "id", getattr(cliente, "_id", None))
+
+    def buscar_cliente_por_id(self, id_cliente):
+        """
+        Busca un cliente registrado por su identificador.
+
+        Args:
+            id_cliente: Identificador del cliente.
+
+        Returns:
+            Cliente o None: Cliente encontrado o None si no existe.
+        """
+
+        for cliente in self.clientes:
+            if str(self._obtener_id_cliente(cliente)) == str(id_cliente):
+                return cliente
+
+        return None
+
+    def registrar_cliente(self, id, nombre, email, telefono):
+        """
+        Registra un cliente en el sistema.
+
+        Args:
+            id: Identificador único del cliente.
+            nombre: Nombre completo del cliente.
+            email: Correo electrónico.
+            telefono: Número telefónico.
+
+        Returns:
+            Cliente: Cliente registrado.
+
+        Raises:
+            ErrorSistema: Si el cliente no puede ser registrado.
+        """
 
         try:
+            if self.buscar_cliente_por_id(id) is not None:
+                raise ErrorSistema(f"Ya existe un cliente registrado con ID {id}.")
 
-            # Creamos objeto cliente
-            cliente = Cliente(
-                id,
-                nombre,
-                email,
-                telefono
-            )
+            cliente = Cliente(id, nombre, email, telefono)
 
-            # Validamos datos del cliente
+            # Se conserva esta llamada por claridad académica, aunque Cliente
+            # también puede validar desde su constructor.
             cliente.validar()
 
-        # Capturamos errores del proceso
-        except Exception as e:
+        except ErrorSistema:
+            logging.error(f"No se pudo registrar el cliente con ID {id}.")
+            raise
 
-            # Encadenamos excepción personalizada
+        except Exception as error:
+            logging.error(f"Error registrando cliente: {error}")
+
             raise ErrorSistema(
-                f"Error registrando cliente: {e}"
-            ) from e
+                f"Error registrando cliente: {error}"
+            ) from error
 
-        # Se ejecuta si no ocurre excepción
         else:
-
-            # Guardamos cliente en la lista
             self.clientes.append(cliente)
-
+            logging.info(f"Cliente registrado correctamente: {cliente}")
             return cliente
 
-        # Se ejecuta siempre
         finally:
+            logging.info("Proceso de registro de cliente finalizado.")
 
-            print(
-                "Proceso de registro finalizado"
-            )
+    def crear_reserva(self, cliente, servicio, duracion):
+        """
+        Crea y confirma una reserva en el sistema.
 
-    # Método encargado de crear reservas
-    def crear_reserva(
-        self,
-        cliente,
-        servicio,
-        duracion
-    ):
+        Args:
+            cliente: Cliente asociado a la reserva.
+            servicio: Servicio seleccionado.
+            duracion: Duración de la reserva.
+
+        Returns:
+            Reserva: Reserva creada y confirmada.
+
+        Raises:
+            ErrorSistema: Si la reserva no puede crearse o confirmarse.
+        """
+
+        reserva = None
 
         try:
+            if cliente is None:
+                raise ErrorSistema("No se puede crear una reserva sin cliente.")
 
-            # Creamos objeto reserva
-            reserva = Reserva(
-                cliente,
-                servicio,
-                duracion
-            )
+            if servicio is None:
+                raise ErrorSistema("No se puede crear una reserva sin servicio.")
 
-            # Confirmamos la reserva
+            id_cliente = self._obtener_id_cliente(cliente)
+
+            if self.buscar_cliente_por_id(id_cliente) is None:
+                raise ErrorSistema(
+                    "El cliente debe estar registrado antes de crear una reserva."
+                )
+
+            reserva = Reserva(cliente, servicio, duracion)
             reserva.confirmar()
 
-        # Capturamos errores
-        except Exception as e:
+        except ErrorSistema:
+            logging.error("No se pudo crear la reserva por una validación del sistema.")
+            raise
 
-            # Encadenamos excepción personalizada
+        except Exception as error:
+            logging.error(f"Error creando reserva: {error}")
+
+            # Si la reserva alcanzó a crearse y quedó en estado fallido,
+            # se registra para conservar trazabilidad de la operación.
+            if reserva is not None and reserva not in self.reservas:
+                self.reservas.append(reserva)
+
             raise ErrorSistema(
-                f"Error creando reserva: {e}"
-            ) from e
+                f"Error creando reserva: {error}"
+            ) from error
 
-        # Se ejecuta si no ocurre excepción
         else:
-
-            # Guardamos reserva
             self.reservas.append(reserva)
-
+            logging.info(f"Reserva creada correctamente: {reserva}")
             return reserva
 
-        # Se ejecuta siempre
         finally:
+            logging.info("Proceso de creación de reserva finalizado.")
 
-            print(
-                "Proceso de reserva finalizado"
-            )
-
-    # Método encargado de cancelar reservas
     def cancelar_reserva(self, reserva):
+        """
+        Cancela una reserva existente en el sistema.
+
+        Args:
+            reserva: Reserva que se desea cancelar.
+
+        Returns:
+            Reserva: Reserva cancelada.
+
+        Raises:
+            ErrorSistema: Si la reserva no puede cancelarse.
+        """
 
         try:
+            if reserva is None:
+                raise ErrorSistema("No se puede cancelar una reserva inexistente.")
 
-            # Cancelamos la reserva
+            if reserva not in self.reservas:
+                raise ErrorSistema("La reserva no pertenece al sistema.")
+
             reserva.cancelar()
 
-        # Capturamos errores
-        except Exception as e:
+        except ErrorSistema:
+            logging.error("No se pudo cancelar la reserva por una validación del sistema.")
+            raise
 
-            # Encadenamos excepción personalizada
+        except Exception as error:
+            logging.error(f"Error cancelando reserva: {error}")
+
             raise ErrorSistema(
-                f"Error cancelando reserva: {e}"
-            ) from e
+                f"Error cancelando reserva: {error}"
+            ) from error
 
-        # Se ejecuta si no ocurre excepción
         else:
-
+            logging.info(f"Reserva cancelada correctamente: {reserva}")
             return reserva
 
-        # Se ejecuta siempre
         finally:
+            logging.info("Proceso de cancelación de reserva finalizado.")
 
-            print(
-                "Proceso cancelación finalizado"
-            )
+    def listar_clientes(self):
+        """
+        Retorna la lista de clientes registrados.
+        """
+
+        return self.clientes
+
+    def listar_reservas(self):
+        """
+        Retorna la lista de reservas gestionadas por el sistema.
+        """
+
+        return self.reservas
+
+    def resumen_sistema(self):
+        """
+        Genera un resumen básico del estado actual del sistema.
+
+        Returns:
+            dict: Cantidad de clientes y reservas registradas.
+        """
+
+        return {
+            "clientes_registrados": len(self.clientes),
+            "reservas_registradas": len(self.reservas)
+        }
