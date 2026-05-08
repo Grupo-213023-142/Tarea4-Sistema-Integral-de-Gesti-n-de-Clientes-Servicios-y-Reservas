@@ -1,61 +1,88 @@
-#Módulo encargado de gestionar los clientes del sistema.
+"""
+Módulo encargado de gestionar los clientes del sistema Software FJ.
 
-#Incluye validaciones y encapsulación de datos.
+Incluye validaciones robustas, encapsulación de datos y herencia desde
+la clase abstracta EntidadAbstracta.
+"""
 
-
-# Importamos la clase abstracta base
 from modelos.entidad_abstracta import EntidadAbstracta
-
-# Importamos excepción personalizada
 from excepciones.errores_personalizados import ErrorValidacion
-
-# Importamos funciones de validación
 from utils.validadores import validar_email, validar_telefono
 
 
-# Clase Cliente que hereda de EntidadAbstracta
 class Cliente(EntidadAbstracta):
+    """
+    Representa un cliente dentro del sistema.
 
-    # Constructor de la clase
+    La clase encapsula los datos principales del cliente y valida que
+    la información ingresada sea consistente antes de permitir su uso
+    en procesos de reserva.
+    """
+
     def __init__(self, id, nombre, email, telefono):
-
-        # Inicializamos atributos heredados
         super().__init__(id)
 
-        # Atributos encapsulados del cliente
         self._nombre = nombre
         self._email = email
         self._telefono = telefono
 
-    # Método property para acceder al nombre
+        # Se valida desde la creación del objeto para evitar clientes inválidos.
+        self.validar()
+
+    @property
+    def id(self):
+        """Retorna el identificador del cliente."""
+        return self._id
+
     @property
     def nombre(self):
-
+        """Retorna el nombre del cliente."""
         return self._nombre
 
-    # Método encargado de validar datos del cliente
+    @property
+    def email(self):
+        """Retorna el correo electrónico del cliente."""
+        return self._email
+
+    @property
+    def telefono(self):
+        """Retorna el número telefónico del cliente."""
+        return self._telefono
+
     def validar(self):
+        """
+        Valida los datos principales del cliente.
 
-        # Verificamos que el correo sea válido
+        Raises:
+            ErrorValidacion: Cuando algún dato del cliente no cumple
+            con las reglas mínimas requeridas por el sistema.
+        """
+
+        if self._id is None or str(self._id).strip() == "":
+            raise ErrorValidacion("El ID del cliente no puede estar vacío.")
+
+        if not isinstance(self._nombre, str) or not self._nombre.strip():
+            raise ErrorValidacion("El nombre del cliente no puede estar vacío.")
+
+        if len(self._nombre.strip()) < 3:
+            raise ErrorValidacion("El nombre del cliente debe tener al menos 3 caracteres.")
+
+        if not isinstance(self._email, str) or not self._email.strip():
+            raise ErrorValidacion("El correo electrónico no puede estar vacío.")
+
         if not validar_email(self._email):
+            raise ErrorValidacion("Correo electrónico inválido.")
 
-            raise ErrorValidacion(
-                "Correo electrónico inválido"
-            )
+        if not isinstance(self._telefono, str) or not self._telefono.strip():
+            raise ErrorValidacion("El teléfono no puede estar vacío.")
 
-        # Verificamos que el teléfono sea numérico
         if not validar_telefono(self._telefono):
+            raise ErrorValidacion("Teléfono inválido.")
 
-            raise ErrorValidacion(
-                "Teléfono inválido"
-            )
+        return True
 
-    # Método que retorna información del cliente
     def __str__(self):
-
         return f"Cliente: {self._nombre} - {self._email}"
 
-    # Método usado para representar el objeto
     def __repr__(self):
-
-        return f"Cliente({self._id}, {self._nombre})"
+        return f"Cliente(id={self._id}, nombre='{self._nombre}')"
