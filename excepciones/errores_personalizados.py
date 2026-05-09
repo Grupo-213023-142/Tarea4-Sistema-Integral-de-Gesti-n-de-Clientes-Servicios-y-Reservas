@@ -25,3 +25,27 @@ class ErrorSistema(Exception):
     def __init__(self, mensaje):
 
         super().__init__(mensaje)
+
+# Excepción para servicios no disponibles
+class ErrorServicio(Exception):
+
+    # Constructor de la excepción
+    def __init__(self, mensaje):
+
+        super().__init__(mensaje)
+
+# Excepción para errores de pago
+class ErrorPago(Exception):
+
+    # Constructor de la excepción
+    def __init__(self, mensaje):
+
+        super().__init__(mensaje)
+
+# Excepción para duración inválida
+class ErrorDuracion(Exception):
+
+    # Constructor de la excepción
+    def __init__(self, mensaje):
+
+        super().__init__(mensaje)
