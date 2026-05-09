@@ -47,3 +47,22 @@ console_handler.setFormatter(formato)
 logger.addHandler(eventos_handler)
 logger.addHandler(errores_handler)
 logger.addHandler(console_handler)
+
+# FUNCIONES AUXILIARES PARA LOGS
+
+# Registrar evento del sistema
+def registrar_evento(mensaje):
+
+    logger.info(mensaje)
+
+
+# Registrar error del sistema
+def registrar_error(mensaje):
+
+    logger.error(mensaje)
+
+
+# Registrar advertencia
+def registrar_advertencia(mensaje):
+
+    logger.warning(mensaje)
