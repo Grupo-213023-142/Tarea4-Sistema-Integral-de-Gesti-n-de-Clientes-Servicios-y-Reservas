@@ -1,0 +1,54 @@
+2026-05-09 20:46:09,937 | INFO | Cliente registrado correctamente: Cliente: Ana Torres - ana@correo.com
+2026-05-09 20:46:09,937 | INFO | Proceso de registro de cliente finalizado.
+2026-05-09 20:46:09,938 | INFO | Caso 1 ejecutado correctamente: Registrar cliente válido
+2026-05-09 20:46:09,938 | INFO | Caso 1 finalizado.
+2026-05-09 20:46:09,938 | ERROR | Error registrando cliente: Correo electrónico inválido.
+2026-05-09 20:46:09,939 | INFO | Proceso de registro de cliente finalizado.
+2026-05-09 20:46:09,939 | ERROR | Caso 2 - Registrar cliente con correo inválido: Error registrando cliente: Correo electrónico inválido.
+2026-05-09 20:46:09,939 | INFO | Caso 2 finalizado.
+2026-05-09 20:46:09,940 | ERROR | Error registrando cliente: Teléfono inválido.
+2026-05-09 20:46:09,940 | INFO | Proceso de registro de cliente finalizado.
+2026-05-09 20:46:09,941 | ERROR | Caso 3 - Registrar cliente con teléfono inválido: Error registrando cliente: Teléfono inválido.
+2026-05-09 20:46:09,941 | INFO | Caso 3 finalizado.
+2026-05-09 20:46:09,941 | ERROR | No se pudo registrar el cliente con ID 1.
+2026-05-09 20:46:09,942 | INFO | Proceso de registro de cliente finalizado.
+2026-05-09 20:46:09,942 | ERROR | Caso 4 - Registrar cliente duplicado: Ya existe un cliente registrado con ID 1.
+2026-05-09 20:46:09,942 | INFO | Caso 4 finalizado.
+2026-05-09 20:46:09,943 | INFO | Caso 5 ejecutado correctamente: Crear servicio de reserva de sala válido
+2026-05-09 20:46:09,943 | INFO | Caso 5 finalizado.
+2026-05-09 20:46:09,943 | ERROR | Caso 6 - Crear servicio con costo negativo: El costo base del servicio debe ser mayor a cero.
+2026-05-09 20:46:09,944 | INFO | Caso 6 finalizado.
+2026-05-09 20:46:09,945 | INFO | Caso 7 ejecutado correctamente: Crear servicio de alquiler de equipo válido
+2026-05-09 20:46:09,945 | INFO | Caso 7 finalizado.
+2026-05-09 20:46:09,946 | INFO | Caso 8 ejecutado correctamente: Crear servicio de asesoría especializada válido
+2026-05-09 20:46:09,946 | INFO | Caso 8 finalizado.
+2026-05-09 20:46:09,946 | INFO | Reserva confirmada para Cliente: Ana Torres - ana@correo.com
+2026-05-09 20:46:09,947 | INFO | Proceso de confirmación de reserva finalizado.
+2026-05-09 20:46:09,947 | INFO | Reserva creada correctamente: Reserva(cliente=Cliente: Ana Torres - ana@correo.com, servicio=Reserva de sala: Sala Ejecutiva, duracion=2, estado=confirmada)
+2026-05-09 20:46:09,947 | INFO | Proceso de creación de reserva finalizado.
+2026-05-09 20:46:09,947 | INFO | Caso 9 ejecutado correctamente: Crear reserva exitosa de sala
+2026-05-09 20:46:09,947 | INFO | Caso 9 finalizado.
+2026-05-09 20:46:09,948 | ERROR | No se pudo crear la reserva por una validación del sistema.
+2026-05-09 20:46:09,948 | INFO | Proceso de creación de reserva finalizado.
+2026-05-09 20:46:09,948 | ERROR | Caso 10 - Crear reserva con cliente no registrado: El cliente debe estar registrado antes de crear una reserva.
+2026-05-09 20:46:09,949 | INFO | Caso 10 finalizado.
+2026-05-09 20:46:09,949 | INFO | Reserva cancelada para Cliente: Ana Torres - ana@correo.com
+2026-05-09 20:46:09,949 | INFO | Proceso de cancelación de reserva finalizado.
+2026-05-09 20:46:09,949 | INFO | Reserva cancelada correctamente: Reserva(cliente=Cliente: Ana Torres - ana@correo.com, servicio=Reserva de sala: Sala Ejecutiva, duracion=2, estado=cancelada)
+2026-05-09 20:46:09,949 | INFO | Proceso de cancelación de reserva finalizado.
+2026-05-09 20:46:09,950 | INFO | Caso 11 ejecutado correctamente: Cancelar reserva válida
+2026-05-09 20:46:09,950 | INFO | Caso 11 finalizado.
+2026-05-09 20:46:09,950 | ERROR | Error al cancelar reserva: La reserva ya se encuentra cancelada.
+2026-05-09 20:46:09,951 | INFO | Proceso de cancelación de reserva finalizado.
+2026-05-09 20:46:09,951 | ERROR | Error cancelando reserva: La reserva ya se encuentra cancelada.
+2026-05-09 20:46:09,951 | INFO | Proceso de cancelación de reserva finalizado.
+2026-05-09 20:46:09,951 | ERROR | Caso 12 - Cancelar reserva ya cancelada: Error cancelando reserva: La reserva ya se encuentra cancelada.
+2026-05-09 20:46:09,951 | INFO | Caso 12 finalizado.
+2026-05-09 20:46:09,952 | ERROR | Error al confirmar reserva: El servicio seleccionado no está disponible.
+2026-05-09 20:46:09,952 | INFO | Proceso de confirmación de reserva finalizado.
+2026-05-09 20:46:09,953 | ERROR | Error creando reserva: No se pudo confirmar la reserva: El servicio seleccionado no está disponible.
+2026-05-09 20:46:09,953 | INFO | Proceso de creación de reserva finalizado.
+2026-05-09 20:46:09,953 | ERROR | Caso 13 - Intentar reservar servicio no disponible: Error creando reserva: No se pudo confirmar la reserva: El servicio seleccionado no está disponible.
+2026-05-09 20:46:09,953 | INFO | Caso 13 finalizado.
+2026-05-09 20:46:09,954 | INFO | Caso 14 ejecutado correctamente: Mostrar resumen final del sistema
+2026-05-09 20:46:09,954 | INFO | Caso 14 finalizado.

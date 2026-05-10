@@ -1,0 +1,15 @@
+2026-05-09 20:46:09,938 | ERROR | Error registrando cliente: Correo electrónico inválido.
+2026-05-09 20:46:09,939 | ERROR | Caso 2 - Registrar cliente con correo inválido: Error registrando cliente: Correo electrónico inválido.
+2026-05-09 20:46:09,940 | ERROR | Error registrando cliente: Teléfono inválido.
+2026-05-09 20:46:09,941 | ERROR | Caso 3 - Registrar cliente con teléfono inválido: Error registrando cliente: Teléfono inválido.
+2026-05-09 20:46:09,941 | ERROR | No se pudo registrar el cliente con ID 1.
+2026-05-09 20:46:09,942 | ERROR | Caso 4 - Registrar cliente duplicado: Ya existe un cliente registrado con ID 1.
+2026-05-09 20:46:09,943 | ERROR | Caso 6 - Crear servicio con costo negativo: El costo base del servicio debe ser mayor a cero.
+2026-05-09 20:46:09,948 | ERROR | No se pudo crear la reserva por una validación del sistema.
+2026-05-09 20:46:09,948 | ERROR | Caso 10 - Crear reserva con cliente no registrado: El cliente debe estar registrado antes de crear una reserva.
+2026-05-09 20:46:09,950 | ERROR | Error al cancelar reserva: La reserva ya se encuentra cancelada.
+2026-05-09 20:46:09,951 | ERROR | Error cancelando reserva: La reserva ya se encuentra cancelada.
+2026-05-09 20:46:09,951 | ERROR | Caso 12 - Cancelar reserva ya cancelada: Error cancelando reserva: La reserva ya se encuentra cancelada.
+2026-05-09 20:46:09,952 | ERROR | Error al confirmar reserva: El servicio seleccionado no está disponible.
+2026-05-09 20:46:09,953 | ERROR | Error creando reserva: No se pudo confirmar la reserva: El servicio seleccionado no está disponible.
+2026-05-09 20:46:09,953 | ERROR | Caso 13 - Intentar reservar servicio no disponible: Error creando reserva: No se pudo confirmar la reserva: El servicio seleccionado no está disponible.
