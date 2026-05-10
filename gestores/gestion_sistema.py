@@ -1,47 +1,3 @@
-<<<<<<< HEAD
-# Importamos modelos y excepciones
-from modelos.cliente import Cliente
-from modelos.servicio import ReservaSala, AlquilerEquipo, AsesoriaEspecializada
-from modelos.reserva import Reserva
-from excepciones.errores_personalizados import ErrorSistema
-
-# Clase GestorSistema para manejar operaciones del sistema
-class GestorSistema:
-    def __init__(self):
-        # Listas internas para guardar clientes y reservas
-        self.clientes = []
-        self.reservas = []
-
-    def registrar_cliente(self, id, nombre, email, telefono):
-        try:
-            # Creamos un cliente y validamos sus datos
-            cliente = Cliente(id, nombre, email, telefono)
-            cliente.validar()
-            self.clientes.append(cliente)
-            return cliente
-        except Exception as e:
-            # Si algo falla, lanzamos un error del sistema
-            raise ErrorSistema(f"Error al registrar cliente: {e}")
-
-    def crear_reserva(self, cliente, servicio, duracion):
-        try:
-            # Creamos una reserva y la confirmamos
-            reserva = Reserva(cliente, servicio, duracion)
-            reserva.confirmar()
-            self.reservas.append(reserva)
-            return reserva
-        except Exception as e:
-            # Si algo falla, lanzamos un error del sistema
-            raise ErrorSistema(f"Error al crear reserva: {e}")
-
-    def cancelar_reserva(self, reserva):
-        try:
-            # Cancelamos la reserva
-            reserva.cancelar()
-            return reserva
-        except Exception as e:
-            raise ErrorSistema(f"Error al cancelar reserva: {e}")
-=======
 """
 Módulo encargado de gestionar las operaciones principales del sistema Software FJ.
 
@@ -52,7 +8,9 @@ para mantener la estabilidad del sistema.
 
 import logging
 
+# Importamos modelos y excepciones (Unificados de ambas ramas)
 from modelos.cliente import Cliente
+from modelos.servicio import ReservaSala, AlquilerEquipo, AsesoriaEspecializada
 from modelos.reserva import Reserva
 from excepciones.errores_personalizados import ErrorSistema
 
@@ -69,6 +27,7 @@ class GestorSistema:
     """
 
     def __init__(self):
+        # Listas internas para guardar clientes y reservas
         self.clientes = []
         self.reservas = []
 
@@ -79,7 +38,6 @@ class GestorSistema:
         Se usa getattr para conservar compatibilidad con distintas versiones
         de la clase Cliente durante la integración de ramas.
         """
-
         return getattr(cliente, "id", getattr(cliente, "_id", None))
 
     def buscar_cliente_por_id(self, id_cliente):
@@ -92,11 +50,9 @@ class GestorSistema:
         Returns:
             Cliente o None: Cliente encontrado o None si no existe.
         """
-
         for cliente in self.clientes:
             if str(self._obtener_id_cliente(cliente)) == str(id_cliente):
                 return cliente
-
         return None
 
     def registrar_cliente(self, id, nombre, email, telefono):
@@ -115,7 +71,6 @@ class GestorSistema:
         Raises:
             ErrorSistema: Si el cliente no puede ser registrado.
         """
-
         try:
             if self.buscar_cliente_por_id(id) is not None:
                 raise ErrorSistema(f"Ya existe un cliente registrado con ID {id}.")
@@ -132,7 +87,6 @@ class GestorSistema:
 
         except Exception as error:
             logging.error(f"Error registrando cliente: {error}")
-
             raise ErrorSistema(
                 f"Error registrando cliente: {error}"
             ) from error
@@ -160,9 +114,7 @@ class GestorSistema:
         Raises:
             ErrorSistema: Si la reserva no puede crearse o confirmarse.
         """
-
         reserva = None
-
         try:
             if cliente is None:
                 raise ErrorSistema("No se puede crear una reserva sin cliente.")
@@ -217,7 +169,6 @@ class GestorSistema:
         Raises:
             ErrorSistema: Si la reserva no puede cancelarse.
         """
-
         try:
             if reserva is None:
                 raise ErrorSistema("No se puede cancelar una reserva inexistente.")
@@ -233,7 +184,6 @@ class GestorSistema:
 
         except Exception as error:
             logging.error(f"Error cancelando reserva: {error}")
-
             raise ErrorSistema(
                 f"Error cancelando reserva: {error}"
             ) from error
@@ -249,14 +199,12 @@ class GestorSistema:
         """
         Retorna la lista de clientes registrados.
         """
-
         return self.clientes
 
     def listar_reservas(self):
         """
         Retorna la lista de reservas gestionadas por el sistema.
         """
-
         return self.reservas
 
     def resumen_sistema(self):
@@ -266,9 +214,8 @@ class GestorSistema:
         Returns:
             dict: Cantidad de clientes y reservas registradas.
         """
-
         return {
             "clientes_registrados": len(self.clientes),
             "reservas_registradas": len(self.reservas)
         }
->>>>>>> origin/gestores
+    
