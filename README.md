@@ -1,101 +1,41 @@
-# Sistema Integral de Gestión de Clientes, Servicios y Reservas
+# Sistema Integral de Gestión de Clientes, Servicios y Reservas (Software FJ)
 
-## Descripción del Proyecto
-
-Este proyecto corresponde al desarrollo de un sistema integral orientado a objetos para la empresa ficticia **Software FJ**, el cual permite gestionar:
-
-- Clientes
-- Servicios
-- Reservas
-
-El sistema fue desarrollado en **Python**, aplicando los principios fundamentales de la **Programación Orientada a Objetos (POO)** y sin utilizar bases de datos, tal como lo establece la guía de la actividad.
-
-Toda la información es administrada mediante:
-- Objetos
-- Listas
-- Manejo de archivos
-- Registro de logs
+Este proyecto corresponde al desarrollo práctico de la **Tarea 4** para el curso de **Programación de Sistemas** (UNAD 2026). Consiste en una aplicación de consola robusta escrita en Python que implementa los principios de la Programación Orientada a Objetos (POO), modularidad, validaciones estrictas y un sistema dinámico de logs para el control de eventos y errores.
 
 ---
 
-# Objetivo del Proyecto
-
-Desarrollar una aplicación modular, estable y extensible que implemente:
-
-- Abstracción
-- Herencia
-- Polimorfismo
-- Encapsulación
-- Manejo avanzado de excepciones
-
-garantizando el correcto funcionamiento del sistema incluso cuando ocurran errores durante la ejecución.
+## 👥 Desarrolladores
+Este proyecto fue diseñado, desarrollado y unificado de forma colaborativa por:
+* **Wilson Pedroza**
+* **Weider Berbesi**
+* **Andres Gomez**
 
 ---
 
-# Características Implementadas
+## 🛠️ Estructura del Proyecto (Arquitectura Modular)
 
-## Programación Orientada a Objetos
+El proyecto está organizado bajo los estándares de desarrollo de software limpio, separando las responsabilidades de cada componente en directorios dedicados:
 
-El proyecto implementa:
-
-- Clases abstractas
-- Herencia
-- Sobrescritura de métodos
-- Encapsulación de atributos
-- Polimorfismo
-
----
-
-## Manejo de Excepciones
-
-El sistema incorpora:
-
-- Excepciones personalizadas
-- Bloques `try/except`
-- Bloques `try/except/else`
-- Bloques `try/except/finally`
-- Encadenamiento de excepciones
-
----
-
-## Logging
-
-El sistema registra automáticamente:
-
-- Eventos importantes
-- Reservas exitosas
-- Cancelaciones
-- Errores
-- Excepciones
-
-mediante archivos `.log`.
-
----
-
-# Estructura del Proyecto
-
-```plaintext
-EJERCICIO_4/
+```text
+Ejercicio 4/
 │
-├── excepciones/
+├── excepciones/             # Excepciones personalizadas para el negocio
 │   └── errores_personalizados.py
 │
-├── gestores/
+├── gestores/                # Controladores y lógica de administración
 │   └── gestion_sistema.py
 │
-├── logs/
-│   ├── errores.log
-│   └── eventos.log
+├── logs/                    # Archivos de registro generados en ejecución
+│   ├── errores.log          # Registro exclusivo de fallos y excepciones
+│   └── eventos.log          # Historial detallado de operaciones exitosas
 │
-├── modelos/
+├── modelos/                 # Clases base y objetos de negocio
 │   ├── cliente.py
-│   ├── entidad_abstracta.py
-│   ├── reserva.py
 │   └── servicio.py
 │
-├── utils/
-│   ├── config_log.py
-│   └── validadores.py
+├── utils/                   # Herramientas de soporte y configuración
+│   ├── config_log.py        # Configuración del sistema de logging
+│   └── validaciones.py      # Filtros de formato (Email, Teléfono, etc.)
 │
-├── main.py
-└── README.md
+├── main.py                  # Punto de entrada y simulación (14 casos de prueba)
+└── README.md                # Presentación de la entrega
